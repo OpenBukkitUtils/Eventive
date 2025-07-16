@@ -18,11 +18,6 @@ import java.util.function.Predicate;
  * This class allows you to easily register individual event handlers / event executors
  * with single method calls.
  */
-/*TODO:
-   Think about adding a way to add executors without listener component to make it possible
-   to register classic event handler methods use method reference.
-   Like an EventConsumer :)
- */
 public class EventsUtil {
 
     @NotNull
@@ -38,11 +33,14 @@ public class EventsUtil {
      */
     public EventsUtil(@NotNull Plugin plugin, @Nullable Listener listener) {
         this.plugin = plugin;
+        //noinspection ReplaceNullCheck - Code is clearer without it imo
         if (listener == null) {
             this.listener = new Listener() {};
             /* Empty listener to register stuff to.
             I mean, Listener is just a marker interface anyway.*/
-        } else this.listener = listener;
+        } else {
+            this.listener = listener;
+        }
     }
 
     public EventsUtil(Plugin plugin) {
@@ -372,14 +370,14 @@ public class EventsUtil {
     /**
      * @return The plugin used to register all the event executors to.
      */
-    public Plugin getPlugin() {
+    public @NotNull Plugin getPlugin() {
         return plugin;
     }
 
     /**
      * @return The listener used to register all the event executors to.
      */
-    public Listener getListener() {
+    public @NotNull Listener getListener() {
         return listener;
     }
 }
