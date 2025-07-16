@@ -302,9 +302,9 @@ public class EventsUtil {
      * @param <T>        The event type that registered.
      */
     public <T extends Event> void registerEventExecutor(Class<T> eventClass, EventPriority priority, GenericEventExecutor<T> executor, Predicate<T> condition) {
-        registerEventExecutor(eventClass, priority, ((GenericEventExecutor<T>) (listener, event) -> {
+        registerEventExecutor(eventClass, priority, ((GenericEventExecutor<T>) (event) -> {
             if (condition.test(event)) {
-                executor.execute(listener, event);
+                executor.execute(event);
             }
         }).unwrap(eventClass));
     }
@@ -337,9 +337,9 @@ public class EventsUtil {
      * @param <T>        The event type that registered.
      */
     public <T extends Event> void registerEventExecutor(Class<T> eventClass, EventPriority priority, GenericEventExecutor<T> executor, BooleanSupplier condition) {
-        registerEventExecutor(eventClass, priority, ((GenericEventExecutor<T>) (listener, event) -> {
+        registerEventExecutor(eventClass, priority, ((GenericEventExecutor<T>) event -> {
             if (condition.getAsBoolean()) {
-                executor.execute(listener, event);
+                executor.execute(event);
             }
         }).unwrap(eventClass));
     }

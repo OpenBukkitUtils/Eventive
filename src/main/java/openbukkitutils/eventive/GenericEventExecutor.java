@@ -35,13 +35,13 @@ import org.bukkit.plugin.EventExecutor;
 @FunctionalInterface
 public interface GenericEventExecutor<T extends Event> {
 
-    void execute(Listener listener, T event) throws EventException;
+    void execute(T event) throws EventException;
 
     default EventExecutor unwrap(Class<T> eventClass) {
         return (listener, event) -> {
             if (eventClass.isInstance(event)) { // basically: if (event instanceof T)
                 //noinspection unchecked
-                execute(listener, (T) event);
+                execute((T) event);
             }
         };
     }
